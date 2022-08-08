@@ -27,7 +27,7 @@ class News_Model extends CI_Model {
             'text' => $this->input->post('text')
         );
     
-        return $this->db->insert('news', $data);
+        return $this->db->insert('news', $data); //Duplicate entry continuation
     }
 }
 
