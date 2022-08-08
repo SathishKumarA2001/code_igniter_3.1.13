@@ -1,5 +1,5 @@
 <?php
-echo $news_item['slug'];
+echo $news_item[0]['slug'];
 echo "<br>";
-echo $news_item['text'];
+echo $news_item[0]['text'];
 ?>

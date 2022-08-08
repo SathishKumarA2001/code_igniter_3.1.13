@@ -9,9 +9,9 @@ class News extends CI_Controller {
     }
 
     public function index() {
-        $data['news'] = $this->News_Model->get_news();
-        $data['title'] = 'News archive';
-
+        $data['news_item'] = $this->News_Model->get_news();
+        $data['title'] = $data['news_item'][0]['title'];
+        
         $this->load->view('templates/header', $data);
         $this->load->view('news/index', $data);
         $this->load->view('templates/footer');
