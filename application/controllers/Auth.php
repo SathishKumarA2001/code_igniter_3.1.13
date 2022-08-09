@@ -25,10 +25,12 @@ class Auth extends CI_Controller {
         if ($this->form_validation->run() == FALSE) {
                 $this->load->view('auth/signup');
         } else {
+            $data['msg'] = 0;
             if(!$this->Auth_Model->signup()) {
                 $data['msg'] = -1;
                 $this->load->view('auth/signup',$data);
             }else {
+                $data['msg'] = 1;
                 $this->load->view('auth/signin',$data);
             }
         }

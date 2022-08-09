@@ -19,7 +19,7 @@
                 <!-- Error Msg page -->
                 <?php if(isset($msg) == -1) { ?>
                   <div class="container" style="text-align:center">
-                    <?php echo heading('Username has to be unique', 3); ?>
+                    <?php echo heading('Username and Email has to be unique', 3); ?>
                   </div>
                 <?php } ?>
 
