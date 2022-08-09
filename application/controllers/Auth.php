@@ -5,6 +5,9 @@ class Auth extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('Auth_Model');
+        $this->load->helper('html');
+        $this->load->helper('form');
+        $this->load->library('form_validation');
     }
 
     public function index() {
@@ -13,8 +16,6 @@ class Auth extends CI_Controller {
     }
 
     public function signup() {
-        $this->load->helper('form','url');
-        $this->load->library('form_validation');
 
         $this->form_validation->set_rules('username','Username','required');
         $this->form_validation->set_rules('email','Email','required');
@@ -24,8 +25,27 @@ class Auth extends CI_Controller {
         if ($this->form_validation->run() == FALSE) {
                 $this->load->view('auth/signup');
         } else {
-                $this->Auth_Model->signup();
+            if(!$this->Auth_Model->signup()) {
+                $data['msg'] = -1;
+                $this->load->view('auth/signup',$data);
+            }else {
+                $this->load->view('auth/signin',$data);
+            }
+        }
+    }
+
+    public function signin() {
+
+        $this->form_validation->set_rules('email','Email','required');
+        $this->form_validation->set_rules('password','Password','required',
+                                            array('required'=>'Its essential'));
+                                            
+        if ($this->form_validation->run() == FALSE) {
+                $this->load->view('auth/signin');
+        } else {
+                $this->Auth_Model->signin();
                 $this->load->view('auth/success');
         }
     }
+
 }

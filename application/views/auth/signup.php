@@ -16,6 +16,13 @@
 
                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
                 
+                <!-- Error Msg page -->
+                <?php if(isset($msg) == -1) { ?>
+                  <div class="container" style="text-align:center">
+                    <?php echo heading('Username has to be unique', 3); ?>
+                  </div>
+                <?php } ?>
+
                 <?php echo validation_errors(); ?>
 
                 <?php echo form_open('Auth/signup'); ?>

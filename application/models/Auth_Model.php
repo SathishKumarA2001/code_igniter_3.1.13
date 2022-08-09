@@ -13,7 +13,18 @@ class Auth_Model extends CI_Model {
             "email" => $this->input->post('email'),
             "password" => $this->input->post('password')
         );
+
         return $this->db->insert('signup',$data);
+    }
+
+    public function signin() {
+        $data = array(
+            "email" => $this->input->post('email'),
+            "password" => $this->input->post('password')
+        );
+
+        return $query = $this->db->query("SELECT * FROM `signup` 
+                                          WHERE '$data[email]' AND '$data[password]'");
     }
 
 }
