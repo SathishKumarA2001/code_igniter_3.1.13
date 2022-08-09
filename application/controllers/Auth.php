@@ -5,9 +5,10 @@ class Auth extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('Auth_Model');
-        $this->load->helper('html');
-        $this->load->helper('form');
+        $this->load->helper('html','form');
         $this->load->library('form_validation');
+        $this->load->library('session');
+
     }
 
     public function index() {
@@ -46,7 +47,8 @@ class Auth extends CI_Controller {
                 $this->load->view('auth/signin');
         } else {
                 $this->Auth_Model->signin();
-                $this->load->view('auth/success');
+                $this->session->set_userdata('Email',$this->input->post('email'));
+                $this->load->view('auth/dashboard');
         }
     }
 

@@ -22,9 +22,24 @@ class Auth_Model extends CI_Model {
             "email" => $this->input->post('email'),
             "password" => $this->input->post('password')
         );
+        $email = $data['email'];
+        $pass = $data['password'];
+        $query = $this->db->query("SELECT * FROM `signup` 
+                          WHERE email = '$email' AND password = '$pass'");               
+        $flag = $query->result_array();
 
-        return $query = $this->db->query("SELECT * FROM `signup` 
-                                          WHERE '$data[email]' AND '$data[password]'");
+        if($flag != NULL) {
+            $this->load->helper('cookie');
+            $rand = crypt($data['email'],rand(10,10000)); //crackable easily
+
+            setcookie('token',$rand,time()+300,'/');
+            print_r($_COOKIE['token']);
+            die(); 
+            //$this->db->insert()  ///continuation
+            return $flag;
+        }else{
+            die('wrong pass');
+        }
     }
 
 }
