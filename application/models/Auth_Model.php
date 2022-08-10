@@ -20,6 +20,19 @@ class Auth_Model extends CI_Model {
         return $this->db->insert('signup',$data);
     }
 
+    public function Auth_token($session_id){
+        $result = $this->db->query("SELECT * FROM `session` WHERE session_id = '$session_id' LIMIT 1");
+        $row = $result->row(0);
+        $time_span = $row->session_time;
+        $time_check = time();
+
+        if($time_check < $time_span){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
     public function signin() {
         $email = $this->input->post('email');
         $pass = $this->input->post('password');
