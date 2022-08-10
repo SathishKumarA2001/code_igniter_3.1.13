@@ -5,7 +5,7 @@ class Auth extends CI_Controller {
     public function __construct(){
         parent::__construct();
         $this->load->model('Auth_Model');
-        $this->load->helper('html','form');
+        $this->load->helper('html','form','cookie');
         $this->load->library('form_validation');
         $this->load->library('session');
 
@@ -38,6 +38,9 @@ class Auth extends CI_Controller {
     }
 
     public function signin() {
+        if (get_cookie('session_id')) {
+
+        }
 
         $this->form_validation->set_rules('email','Email','required');
         $this->form_validation->set_rules('password','Password','required',

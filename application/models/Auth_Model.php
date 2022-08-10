@@ -1,8 +1,11 @@
 <?php
 
 class Auth_Model extends CI_Model {
+
     public function __construct() {
         $this->load->database();
+        $this->load->helper('cookie');
+        $this->load->model('My_Cookie_Model');
     }
 
     public function signup(){
@@ -18,27 +21,31 @@ class Auth_Model extends CI_Model {
     }
 
     public function signin() {
-        $data = array(
-            "email" => $this->input->post('email'),
-            "password" => $this->input->post('password')
-        );
-        $email = $data['email'];
-        $pass = $data['password'];
+        $email = $this->input->post('email');
+        $pass = $this->input->post('password');
         $query = $this->db->query("SELECT * FROM `signup` 
                           WHERE email = '$email' AND password = '$pass'");               
         $flag = $query->result_array();
 
         if($flag != NULL) {
-            $this->load->helper('cookie');
-            $rand = crypt($data['email'],rand(10,10000)); //crackable easily
+            //set cookie at first signIn
+            $cookie = get_cookie('session_id');
+            if(!isset($cookie)) {
+                $set = $this->My_Cookie_Model->My_setCookie($email);
+                if($set){
+                    return $flag;
+                }
+            }
+            // //Refresh cookie token while in session --> Halt coz of Security Bug 
+            // if(isset($cookie)) {
+            //     $set = $this->My_Cookie_Model->My_refreshToken();
+            //     if($set){
+            //         return $flag;
+            //     }
+            // }
 
-            setcookie('token',$rand,time()+300,'/');
-            print_r($_COOKIE['token']);
-            die(); 
-            //$this->db->insert()  ///continuation
-            return $flag;
-        }else{
-            die('wrong pass');
+        } else {
+            die('wrong password');
         }
     }
 
